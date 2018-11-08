@@ -1,0 +1,24 @@
+{
+  "name": "9-forkify",
+  "version": "1.0.0",
+  "description": "Get the recipes of over 1000 of food now!",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LucyTian/forkify.git"
+  },
+  "author": "Lucy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LucyTian/forkify/issues"
+  },
+  "homepage": "https://github.com/LucyTian/forkify#readme",
+  "devDependencies": {
+    "webpack": "^4.25.1",
+    "webpack-cli": "^3.1.2"
+  }
+}
