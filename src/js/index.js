@@ -2,7 +2,7 @@
 
 import Search from './Models/search';
 import * as searchView from './Views/searchView';
-import {elements} from './Views/base';
+import {elements, renderLoader, clearLoader} from './Views/base';
 
 /** Global state of the application
  * - Search object
@@ -23,9 +23,11 @@ const controlSearch = async () =>{
     if (query) {
         state.search = new Search(query);
 
-        // 3. prepare UI for result
+        // 3. prepare UI for result  (here also include the spinning of preparing for the list)
         searchView.clearInput();
         searchView.clearResult();
+        renderLoader(elements.searchRes);
+        
 
         // 4. update the result list, note getResult is a async method that return a promise, need
         // to wait until the promise finishes
@@ -33,12 +35,9 @@ const controlSearch = async () =>{
         console.log(state.search.result);
         
         // 5. render the result in the UI
+        clearLoader(elements.searchRes);
         searchView.renderResult(state.search.result);
     }
-    
-
-    // 4. show the updated result list
-
 }
 
 controlSearch();
