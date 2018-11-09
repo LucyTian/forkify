@@ -2,7 +2,7 @@
 
 import Search from './Models/search';
 import * as searchView from './Views/searchView';
-import {elements, renderLoader, clearLoader} from './Views/base';
+import {elements, renderLoader, clearLoader, elementStrings} from './Views/base';
 
 /** Global state of the application
  * - Search object
@@ -42,7 +42,18 @@ const controlSearch = async () =>{
 
 controlSearch();
 
-elements.searchForm.addEventListener('submit', e=>{
+elements.searchForm.addEventListener('submit', e => {
     e.preventDefault();  // prevent the default event
     controlSearch();
+});
+
+// pay attention to the element.closest here to find a certain element
+elements.searchResPage.addEventListener('click', e => {
+    const btn = e.target.closest(`.${elementStrings.searchBtnInline}`);
+    if (btn) {
+        const goToPage = parseInt(btn.dataset.goto, 10);
+        searchView.clearResult();
+        searchView.renderResult(state.search.result, goToPage);
+    }
+
 })
