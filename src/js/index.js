@@ -102,11 +102,24 @@ const controlRecipe = async () =>{
             console.warn(error);
             alert('Error processing the recipe');
         }
-        
-
-        
     }
 }
 
 // add multiple event to an object with the same functions
 ['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
+
+
+// handling event handler of buttons
+elements.recipe.addEventListener('click', e => {
+    // if the target mathes btn-decrease or any child of btn-decrease
+    if (e.target.matches('.btn-decrease, .btn-decrease *')) {
+        // decrease btn is clicked
+        if (state.recipe.serving > 1) {
+            state.recipe.updateServings('dec');
+        }
+    } else if (e.target.matches('.btn-increase, .btn-increase *')) {
+        // increase btn is clicked
+        state.recipe.updateServing('inc');
+    }
+    recipeView.updateServingIngre(recipe);
+})
