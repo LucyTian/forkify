@@ -2,6 +2,7 @@
 
 import Search from './Models/search';
 import * as searchView from './Views/searchView';
+import * as recipeView from './Views/recipeView';
 import {elements, renderLoader, clearLoader, elementStrings} from './Views/base';
 import Recipe from './Models/recipes';
 
@@ -28,12 +29,13 @@ const controlSearch = async () =>{
         searchView.clearInput();
         searchView.clearResult();
         renderLoader(elements.searchRes);
-        
 
         try {
             // 4. update the result list, note getResult is a async method that return a promise, need
             // to wait until the promise finishes
             await state.search.getResults();
+
+            console.log(state.search.result);
     
             // 5. render the result in the UI
             clearLoader(elements.searchRes);
@@ -72,6 +74,11 @@ const controlRecipe = async () =>{
 
     if (id) {
         // prepare the url for changes
+        recipeView.clearResult();
+        renderLoader(elements.recipe);
+
+        // highlight the selected
+        if (state.search) searchView.highlightSelected(id);
 
         // create new recipe object
         state.recipe = new Recipe(id);
@@ -79,7 +86,7 @@ const controlRecipe = async () =>{
         // get the recipe data
         try {
             await state.recipe.getRecipe();
-            const res = state.recipe.parseIngredient();
+            state.recipe.parseIngredient();
 
             // cal the time and serving
             state.recipe.calcServings();
@@ -88,7 +95,9 @@ const controlRecipe = async () =>{
 
             // render the recipe
             console.log(state.recipe);
-            console.log(res);
+            clearLoader(elements.recipe);
+            recipeView.RenderRecipe(state.recipe);
+    
         } catch (error) {
             console.warn(error);
             alert('Error processing the recipe');

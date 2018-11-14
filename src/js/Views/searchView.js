@@ -79,10 +79,18 @@ const renderButtons = (page, numResults, resPerPage) =>{
 export const renderResult = (recipes, page = 2, resPerPage = 10)=> {
     const start = (page - 1) * resPerPage;
     const end = page * resPerPage;
-   
     recipes.slice(start, end).forEach(renderRecipe);
     
     renderButtons(page, recipes.length, resPerPage);
+}
+
+export const highlightSelected = id => {
+    // before highlight a new recipe, need to remove the highlight of the previous ones
+    const resultArr = Array.from(document.querySelectorAll(`.results_link`));
+    resultArr.forEach(ele => {
+        ele.classList.remove('result__link-active');
+    });
+    document.querySelector(`a[href="#${id}"]`).classList.add('result__link-active');
 }
 
 /**

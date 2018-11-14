@@ -35,7 +35,9 @@ export default class Recipe {
 
         const unitShort = ['tbsp', 'tbsp', 'oz', 'oz', 'tsp', 'tsp', 'cup', 'pound'];
 
-        const newGredient = this.ingredients.map(cur => {
+        const units = [...unitShort, 'kg', 'g']
+
+        const newIngredient = this.ingredients.map(cur => {
             // 1. uniform units
             let ingredient = cur.toLowerCase();
 
@@ -53,13 +55,12 @@ export default class Recipe {
 
             // findIndex takes in a call back function returns boolean, findIndex it self returns the index of 
             // the first elements that returns true in the callback func
-            const unitIndex = arrIng.findIndex(ele =>unitShort.includes(ele));  
+            const unitIndex = arrIng.findIndex(ele =>units.includes(ele));  
 
             let objIng;
             if (unitIndex > -1) {
                 // if there is unit
                 const arrCount = arrIng.slice(0, unitIndex);
-                console.log(arrCount);
                 let count;
                 if (arrCount.length == 1) {
                     count = eval(arrCount[0].replace('-', '+'));
@@ -88,6 +89,6 @@ export default class Recipe {
             }
             return objIng;
         });
-        return newGredient;
+        this.ingredients = newIngredient;
     }
 }
